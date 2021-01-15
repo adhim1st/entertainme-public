@@ -11,6 +11,16 @@ class SeriesController {
       });
   }
 
+  static findOneSeries(req, res) {
+    Series.findOne(req.params.id)
+      .then((data) => {
+        res.json(data);
+      })
+      .catch((err) => {
+        res.send(err);
+      });
+  }
+
   static createSeries(req, res) {
     Series.create({
       title: req.body.title,
@@ -48,7 +58,7 @@ class SeriesController {
     };
     Series.update(payload)
       .then((data) => {
-        res.json(data);
+        res.json(data.value);
       })
       .catch((err) => {
         console.log(err);
@@ -58,7 +68,7 @@ class SeriesController {
   static removeOneSeries(req, res) {
     Series.removeOne(req.params.id)
       .then((data) => {
-        res.json(data);
+        res.json({ message: "delete success" });
       })
       .catch((err) => {
         console.log(err);

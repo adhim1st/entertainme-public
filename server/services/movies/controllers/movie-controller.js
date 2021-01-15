@@ -12,6 +12,17 @@ class MovieController {
       });
   }
 
+  static findOneMovie(req, res) {
+    Movie.findOne(req.params.id)
+      .then((data) => {
+        res.json(data);
+      })
+      .catch((err) => {
+        console.log(err);
+        res.send(err);
+      });
+  }
+
   static createMovies(req, res) {
     Movie.create({
       title: req.body.title,
@@ -51,7 +62,7 @@ class MovieController {
     };
     Movie.update(payload)
       .then((data) => {
-        res.json(data);
+        res.json(data.value);
       })
       .catch((err) => {
         console.log(err);
@@ -62,7 +73,7 @@ class MovieController {
   static removeOneMovie(req, res) {
     Movie.removeOne(req.params.id)
       .then((data) => {
-        res.json(data);
+        res.json({ message: "success delete" });
       })
       .catch((err) => {
         console.log(err);

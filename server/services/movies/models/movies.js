@@ -6,6 +6,12 @@ class MovieModel {
   static find() {
     return Movie.find().toArray();
   }
+  static findOne(id) {
+    return Movie.findOne({
+      _id: ObjectId(id),
+    });
+  }
+
   static create(payload) {
     return Movie.insertOne(payload).then((data) => {
       return data.ops[0];

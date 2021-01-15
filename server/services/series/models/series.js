@@ -6,6 +6,11 @@ class SeriesModel {
   static find() {
     return Series.find().toArray();
   }
+  static findOne(id) {
+    return Series.findOne({
+      _id: ObjectId(id),
+    });
+  }
   static create(payload) {
     return Series.insertOne(payload).then((data) => {
       return data.ops[0];
