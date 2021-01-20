@@ -33,14 +33,25 @@ const typeDefs = gql`
     message: String
   }
 
+  input newMovie {
+    title: String
+    overview: String
+    poster_path: String
+    popularity: Float
+    tags: [String]
+  }
+
+  input updateMovieData {
+    id: ID!
+    title: String
+    overview: String
+    poster_path: String
+    popularity: Float
+    tags: [String]
+  }
+
   type Mutation {
-    createMovie(
-      title: String
-      overview: String
-      poster_path: String
-      popularity: Float
-      tags: [String]
-    ): Movie
+    createMovie(newMovie: newMovie): Movie
 
     createSeries(
       title: String
@@ -54,14 +65,7 @@ const typeDefs = gql`
 
     deleteOneSeries(id: ID!): DeleteResponse
 
-    updateMovie(
-      id: ID!
-      title: String
-      overview: String
-      poster_path: String
-      popularity: Float
-      tags: [String]
-    ): Movie
+    updateMovie(updateMovieData: updateMovieData): Movie
 
     updateSeries(
       id: ID!
@@ -157,12 +161,13 @@ const resolvers = {
   },
   Mutation: {
     createMovie: function (_, args) {
+      console.log(args);
       const newMovie = {
-        title: args.title,
-        overview: args.overview,
-        poster_path: args.poster_path,
-        popularity: args.popularity,
-        tags: args.tags,
+        title: args.newMovie.title,
+        overview: args.newMovie.overview,
+        poster_path: args.newMovie.poster_path,
+        popularity: args.newMovie.popularity,
+        tags: args.newMovie.tags,
       };
       return axios({
         url: "http://localhost:4001/movies",
@@ -181,6 +186,7 @@ const resolvers = {
         });
     },
     deleteOneMovie: function (_, args) {
+      console.log(args, "<<<<<,");
       return axios({
         url: `http://localhost:4001/movies/${args.id}`,
         method: "DELETE",
@@ -197,15 +203,16 @@ const resolvers = {
         });
     },
     updateMovie: function (_, args) {
+      console.log(args);
       const updatedMovie = {
-        title: args.title,
-        overview: args.overview,
-        poster_path: args.poster_path,
-        popularity: args.popularity,
-        tags: args.tags,
+        title: args.updateMovieData.title,
+        overview: args.updateMovieData.overview,
+        poster_path: args.updateMovieData.poster_path,
+        popularity: args.updateMovieData.popularity,
+        tags: args.updateMovieData.tags,
       };
       return axios({
-        url: `http://localhost:4001/movies/${args.id}`,
+        url: `http://localhost:4001/movies/${args.updateMovieData.id}`,
         method: "PUT",
         data: updatedMovie,
       })

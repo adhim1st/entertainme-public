@@ -37,6 +37,9 @@ class SeriesModel {
           popularity: payload.popularity,
           tags: payload.tags,
         },
+      },
+      {
+        returnOriginal: false,
       }
     );
   }

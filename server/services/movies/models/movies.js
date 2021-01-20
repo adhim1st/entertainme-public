@@ -38,6 +38,9 @@ class MovieModel {
           popularity: payload.popularity,
           tags: payload.tags,
         },
+      },
+      {
+        returnOriginal: false,
       }
     );
   }
